@@ -67,8 +67,10 @@ for cameraFrame in camera.capture_continuous(rawCapture, format="bgr", use_video
         skip -= 1
         if skip <= 0:
             basis = gray
+            print("using frame as basis")
+        else:
+            print("warming up; skipping frame")
         rawCapture.truncate(0)
-        print("warming up; skipping frame")
         continue
 
     frameDelta = cv2.absdiff(basis, gray)
