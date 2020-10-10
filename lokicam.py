@@ -83,10 +83,9 @@ for cameraFrame in camera.capture_continuous(rawCapture, format="bgr", use_video
         area = cv2.contourArea(c)
         if area < minArea:
             continue
-        else:
-            print("change area {}".format(area))
 
         changeDetected = True
+        print("change area {}".format(area))
         (x, y, w, h) = cv2.boundingRect(c)
         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
     
@@ -95,7 +94,8 @@ for cameraFrame in camera.capture_continuous(rawCapture, format="bgr", use_video
 
     if changeDetected:
         detectedFrames.append(frame.copy())
-        if len(detectedFrames) == args["report_frames"]:
+        numFrames = len(detectedFrames)
+        if numFrames == args["report_frames"]:
             # report!
             filename = "capture{}.mp4".format(capture)
             capture += 1
@@ -109,14 +109,14 @@ for cameraFrame in camera.capture_continuous(rawCapture, format="bgr", use_video
                 print("telegram result: {}".format(result))
             #detectedFrames = []
         else:
-            print("have {} detected frames".format(len(detectedFrames)))
-            if len(detectedFrames) > 100:
+            print("have {} detected frames".format(numFrames))
+            if numFrames >= args["normalize_frames"]:
                 print("setting current frame as new basis")
                 basis = gray
                 detectedFrames = []
     else:
         basis = gray
-        if len(detectedFrames) > 0:
+        if detectedFrames:
             print("tossing {} detected frames".format(len(detectedFrames)))
             detectedFrames = []
 
