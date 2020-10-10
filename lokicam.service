@@ -1,0 +1,17 @@
+[Unit]
+Description=LokiCam
+After=network.target
+
+[Service]
+WorkingDirectory=/home/pi/lokicam
+User=pi
+# run python3 with -u for unbuffered output, so print actually makes it to journal
+ExecStart=/usr/bin/python3 -u lokicam.py
+StandardOutput=journal
+StandardError=journal
+Type=exec
+KillMode=process
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
