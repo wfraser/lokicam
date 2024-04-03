@@ -17,6 +17,7 @@ ap.add_argument("--min-area", type=int, default=1000, help="minimum area for mot
 ap.add_argument("--threshold", type=int, default=10, help="brightness change threshold for motion detection")
 ap.add_argument("--report-frames", type=int, default=10, help="consecutive frames with motion detected to trigger a report")
 ap.add_argument("--normalize-frames", type=int, default=100, help="consecutive frames with motion detected which reset what is considered 'normal'")
+ap.add_argument("--caption", type=str, default="Loki detected!", help="caption of the message to send")
 args = vars(ap.parse_args())
 
 load_dotenv()
@@ -106,7 +107,7 @@ for cameraFrame in camera.capture_continuous(rawCapture, format="bgr", use_video
                 result = bot.send_video(
                         chat_id=chatId,
                         video=videoFile,
-                        caption="Loki detected!",
+                        caption=args["caption"],
                         )
                 print("telegram result: {}".format(result))
             #detectedFrames = []
